@@ -30,30 +30,13 @@ public class UrlController {
     }
 
     @PostMapping(value = "/shorten-url")
-    public ResponseEntity<ShortenUrlResponse> shortenUrl(@RequestBody ShortenUrlRequest shortenUrlRequest,
-                                           HttpServletRequest servletRequest) {
-        String id = urlService.convertShortUrl(shortenUrlRequest);
-        var redirectUrl = servletRequest.getRequestURL().toString().replace("shorten-url", id);
-
+    public ResponseEntity<ShortenUrlResponse> shortenUrl(@RequestBody ShortenUrlRequest shortenUrlRequest) {
+        var redirectUrl = urlService.convertShortUrl(shortenUrlRequest);
         return ResponseEntity.ok(new ShortenUrlResponse(redirectUrl));
     }
     @GetMapping("{id}")
   public ResponseEntity<Void> redirect(@PathVariable("id") String id){
-
-         var url = urlRepository.findById(id);
-
-         System.out.println(url);
-
-         if (url.isEmpty()) {
-
-             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-
-
-         }
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(URI.create(url.get().getLongUrl()));
-
+        HttpHeaders headers = urlService.redirection(id);
         return ResponseEntity.status(HttpStatus.FOUND).headers(headers).build();
 
         }

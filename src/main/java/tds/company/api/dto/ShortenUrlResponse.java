@@ -1,6 +1,5 @@
 package tds.company.api.dto;
 
-
 public class ShortenUrlResponse {
 
     String url;
