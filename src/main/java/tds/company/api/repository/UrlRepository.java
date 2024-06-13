@@ -1,7 +1,8 @@
 package tds.company.api.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import tds.company.api.entity.Url;
-
-public interface UrlRepository extends JpaRepository<Url, Long> {
+import org.springframework.stereotype.Repository;
+import tds.company.api.entity.UrlEntity;
+@Repository
+public interface UrlRepository extends JpaRepository<UrlEntity, String> {
 }
