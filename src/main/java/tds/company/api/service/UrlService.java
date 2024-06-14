@@ -37,17 +37,16 @@ public class UrlService {
         return urlredirect;
 
     }
-    public HttpHeaders redirection(String id){
+    public ResponseEntity<Void> redirection(String id){
 
         var url = urlRepository.findById(id);
         if (url.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build().getHeaders();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        } else {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setLocation(URI.create(url.get().getLongUrl()));
+            return ResponseEntity.status(HttpStatus.FOUND).headers(headers).build();
         }
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(URI.create(url.get().getLongUrl()));
-
-        return headers;
 
 
 
