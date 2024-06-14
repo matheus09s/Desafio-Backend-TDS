@@ -8,13 +8,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import tds.company.api.dto.ShortenUrlRequest;
+import tds.company.api.dto.UrlStats;
 import tds.company.api.entity.UrlEntity;
 import tds.company.api.repository.UrlRepository;
 
 import java.net.URI;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class UrlService {
@@ -56,4 +61,17 @@ public class UrlService {
 
 
         }
+    public UrlStats getStatsService(String id) {
+        UrlEntity url = urlRepository.findById(id).orElseThrow(() -> new NoSuchElementException("URL not found with id " + id));
+
+        long totalAccesses = url.getAccessTimes().size();
+        long daysSinceCreated = ChronoUnit.DAYS.between(url.getCreationTime().toLocalDate(), LocalDate.now()) + 1;
+        double averageAccessesPerDay = (double) totalAccesses / daysSinceCreated;
+
+        return new UrlStats(totalAccesses, averageAccessesPerDay);
     }
+    }
+
+
+
+
