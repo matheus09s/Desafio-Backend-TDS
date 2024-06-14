@@ -12,6 +12,9 @@ import tds.company.api.entity.UrlEntity;
 import tds.company.api.repository.UrlRepository;
 
 import java.net.URI;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UrlService {
@@ -30,28 +33,27 @@ public class UrlService {
         do {
             id = RandomStringUtils.randomAlphanumeric(5, 7);
         } while (urlRepository.existsById(id));
-         String urlredirect= servletRequest.getRequestURL().toString().replace("shorten-url", id);
+        String urlredirect = servletRequest.getRequestURL().toString().replace("shorten-url", id);
 
-        urlRepository.save(new UrlEntity(id, shortenUrlRequest.getLongUrl()));
+        List<LocalDateTime> accessTimes = new ArrayList<>();
+        LocalDateTime creationTime = LocalDateTime.now();
+        UrlEntity urlEntity = new UrlEntity(accessTimes, creationTime, shortenUrlRequest.getLongUrl(), id);
+        urlRepository.save(urlEntity);
 
         return urlredirect;
-
     }
-    public ResponseEntity<Void> redirection(String id){
 
-        var url = urlRepository.findById(id);
-        if (url.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        } else {
-            HttpHeaders headers = new HttpHeaders();
-            headers.setLocation(URI.create(url.get().getLongUrl()));
-            return ResponseEntity.status(HttpStatus.FOUND).headers(headers).build();
+
+    public ResponseEntity<UrlEntity> redirection (String id){
+            var url = urlRepository.findById(id);
+            if (url.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            } else {
+                HttpHeaders headers = new HttpHeaders();
+                headers.setLocation(URI.create(url.get().getLongUrl()));
+                return ResponseEntity.status(HttpStatus.FOUND).headers(headers).body(url.get());
+            }
+
+
         }
-
-
-
-
-
-
     }
-}
