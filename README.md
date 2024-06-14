@@ -20,6 +20,10 @@ SpringDoc OpenAPI 3
 
 Mysql
 
+MockMvc
+
+JUnit 5
+
 
 ## Endpoints
 
