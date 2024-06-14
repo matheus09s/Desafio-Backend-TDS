@@ -1,5 +1,4 @@
 package tds.company.api;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -15,7 +14,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 
-// ... seu código de teste
 @SpringBootTest
 @AutoConfigureMockMvc
 class ApiApplicationTests {
@@ -34,12 +32,10 @@ class ApiApplicationTests {
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.shortUrl", startsWith("http://localhost/")));
 	}
-
 	@Test
 	public void verificarDirecionamento() throws Exception {
 		String shortUrlId = "0rDtF";
 		String longUrl = "https://example.com/very/long/url";
-
 		mockMvc.perform(MockMvcRequestBuilders.get("/" + shortUrlId))
 				.andExpect(status().isFound())
 				.andExpect(header().string("Location", longUrl));
@@ -48,17 +44,15 @@ class ApiApplicationTests {
 	@Test
 	public void verificarTotalAcessosMedia() throws Exception {
 		String shortUrlId = "0rDtF";
-
 		mockMvc.perform(MockMvcRequestBuilders.get("/stats/" + shortUrlId))
 				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.totalAccesses", is(1))) // Exemplo de total de acessos
-				.andExpect(jsonPath("$.averageAccessesPerDay", is(1.0))); // Exemplo de média de acessos por dia
+				.andExpect(jsonPath("$.totalAccesses", is(1)))
+				.andExpect(jsonPath("$.averageAccessesPerDay", is(1.0)));
 	}
 
 	@Test
 	public void verificarId() throws Exception {
 		String nonExistentShortUrlId = "nonExistent";
-
 		mockMvc.perform(MockMvcRequestBuilders.get("/" + nonExistentShortUrlId))
 				.andExpect(status().isNotFound());
 	}
