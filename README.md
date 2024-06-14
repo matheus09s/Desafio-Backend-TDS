@@ -5,16 +5,20 @@ Desafio para vaga de desenvolvedor back-end
 
 Esta API fornece funcionalidades para encurtar URLs e obter estatísticas sobre as URLs encurtadas.
 
-A API poderá ser acessada em localhost:8080.
+Ao executar o projeto, a API poderá ser acessada em localhost:8080.
 
 O Swagger poderá ser visualizado em localhost:8080/swagger-ui.html
 
 ## Tecnologias
 Spring Boot
+
 Spring MVC
+
 Spring Data JPA
+
 SpringDoc OpenAPI 3
 Mysql
+
 
 ## Endpoints
 
