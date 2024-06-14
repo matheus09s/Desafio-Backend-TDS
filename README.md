@@ -5,6 +5,8 @@ Desafio para vaga de desenvolvedor back-end
 
 Esta API fornece funcionalidades para encurtar URLs e obter estatísticas sobre as URLs encurtadas.
 
+A API poderá ser acessada em localhost:8080.
+
 O Swagger poderá ser visualizado em localhost:8080/swagger-ui.html
 
 ## Endpoints
