@@ -19,13 +19,15 @@ Recebe uma URL longa como entrada e retorna uma URL encurtada.
 {
     "longUrl": "http://exemplo.com"
 }
-
+```
 #### Response Body
+
 
 ```json
 {
     "shortUrl": "string"
 }
+```
 
 
 
