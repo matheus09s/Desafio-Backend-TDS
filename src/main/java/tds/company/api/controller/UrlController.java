@@ -1,13 +1,6 @@
 package tds.company.api.controller;
 
 
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import lombok.AllArgsConstructor;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +12,7 @@ import tds.company.api.repository.UrlRepository;
 import tds.company.api.service.UrlService;
 
 import java.net.URI;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
@@ -63,14 +57,17 @@ public class UrlController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         } else {
             long totalAccesses = url.get().getAccessTimes().size();
-            long daysSinceCreated = ChronoUnit.DAYS.between(url.get().getCreationTime(), LocalDateTime.now());
-            double averageAccessesPerDay = daysSinceCreated > 0 ? (double) totalAccesses / daysSinceCreated : totalAccesses;
+            long daysSinceCreated = ChronoUnit.DAYS.between(url.get().getCreationTime().toLocalDate(), LocalDate.now()) + 1;
+            double averageAccessesPerDay = (double) totalAccesses / daysSinceCreated;
 
             UrlStats stats = new UrlStats(totalAccesses, averageAccessesPerDay);
             return ResponseEntity.ok(stats);
         }
     }
+
 }
+
+
 
 
 
