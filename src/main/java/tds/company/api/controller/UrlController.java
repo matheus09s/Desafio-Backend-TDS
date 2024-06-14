@@ -15,6 +15,7 @@ import java.net.URI;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RestController
@@ -51,17 +52,11 @@ public class UrlController {
 
     @GetMapping("/stats/{id}")
     public ResponseEntity<UrlStats> getStats(@PathVariable("id") String id) {
-
-        Optional<UrlEntity> url = urlRepository.findById(id);
-        if (url.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        } else {
-            long totalAccesses = url.get().getAccessTimes().size();
-            long daysSinceCreated = ChronoUnit.DAYS.between(url.get().getCreationTime().toLocalDate(), LocalDate.now()) + 1;
-            double averageAccessesPerDay = (double) totalAccesses / daysSinceCreated;
-
-            UrlStats stats = new UrlStats(totalAccesses, averageAccessesPerDay);
+        try {
+            UrlStats stats = urlService.getStatsService(id);
             return ResponseEntity.ok(stats);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
