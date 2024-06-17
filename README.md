@@ -43,17 +43,17 @@ Recebe uma URL longa como entrada e retorna uma URL encurtada.
 
 ```json
 {
-    "shortUrl": "xxx:8080/xxx"
+    "shortUrl": "xxx:8080/{id}"
 }
 ```
 
 ### GET /{id}
 
-Redireciona o usuário para a URL longa original associada ao ID fornecido. Se a URL não for encontrada, retorna um status 404 NOT FOUND.
+Redireciona o usuário para a *URL longa original* associada ao ID fornecido. Se a URL não for encontrada, retorna um status *404 NOT FOUND*.
 
 ### GET  /stats/{id}
 
-Retorna estatísticas sobre a URL encurtada associada ao ID fornecido. As estatísticas incluem o número total de acessos e a média de acessos por dia. Se a URL não for encontrada, retorna um status 404 NOT FOUND.
+Retorna estatísticas sobre a URL encurtada associada ao ID fornecido. As estatísticas incluem o *número total de acessos e a média de acessos por dia*. Se a URL não for encontrada, retorna um status 404 NOT FOUND.
 
 #### Response Body
 
